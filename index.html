@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HerHealth - Menstrual Hygiene Awareness</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe0f0, #fff5f8);
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #ff4d88, #d63384);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      border-bottom-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+    }
+
+    /* Notification */
+    #notification {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff4d88;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      animation: slideDown 0.6s ease;
+    }
+
+    @keyframes slideDown {
+      from { top: -50px; opacity: 0; }
+      to { top: 20px; opacity: 1; }
+    }
+
+    /* Flip Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      padding: 40px;
+    }
+
+    .card {
+      perspective: 1000px;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      transition: transform 0.7s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      border-radius: 20px;
+    }
+
+    .card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .card-front {
+      background: #fff;
+      color: #ff4d88;
+      font-weight: bold;
+    }
+
+    .card-back {
+      background: linear-gradient(135deg, #ff4d88, #d63384);
+      color: white;
+      transform: rotateY(180deg);
+    }
+
+    /* Quiz Section */
+    .quiz {
+      padding: 30px;
+      background: white;
+      margin: 20px auto;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .quiz h2 {
+      margin-bottom: 15px;
+      color: #d63384;
+    }
+
+    .quiz button {
+      margin: 8px;
+      background: linear-gradient(135deg, #ff4d88, #d63384);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .quiz button:hover {
+      transform: scale(1.1);
+      background: linear-gradient(135deg, #d63384, #ff4d88);
+    }
+
+    footer {
+      background: linear-gradient(135deg, #d63384, #ff4d88);
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 40px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>HerHealth – Menstrual Hygiene Awareness</h1>
+  </header>
+
+  <!-- Notification -->
+  <div id="notification">🌸 Stay safe & hygienic: Change your pad every 4–6 hours!</div>
+
+  <!-- Flip Cards Section -->
+  <section>
+    <h2 style="text-align:center; margin-top:20px;">Awareness Tips</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-front">Why is hygiene important?</div>
+          <div class="card-back">Maintaining hygiene prevents infections and improves health.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-front">Best practice?</div>
+          <div class="card-back">Always change sanitary products every 4–6 hours.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-front">Diet Tip</div>
+          <div class="card-back">Eat iron-rich foods like spinach & lentils during periods.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz Section -->
+  <section class="quiz">
+    <h2>Quick Quiz</h2>
+    <p>Q1. What is the best interval to change a sanitary pad?</p>
+    <button onclick="checkAnswer('wrong')">Every 12 hours</button>
+    <button onclick="checkAnswer('correct')">Every 4–6 hours</button>
+    <button onclick="checkAnswer('wrong')">Only once daily</button>
+
+    <p id="quiz-result" style="margin-top:15px; font-weight:bold;"></p>
+  </section>
+
+  <footer>
+    <p>© 2025 HerHealth Project | Awareness for Better Hygiene</p>
+  </footer>
+
+  <script>
+    // Notification display
+    window.onload = function() {
+      const note = document.getElementById("notification");
+      note.style.display = "block";
+      setTimeout(() => {
+        note.style.display = "none";
+      }, 5000); // hides after 5 seconds
+    }
+
+    // Quiz logic
+    function checkAnswer(answer) {
+      let result = document.getElementById("quiz-result");
+      if (answer === "correct") {
+        result.style.color = "green";
+        result.innerText = "✅ Correct! Pads should be changed every 4–6 hours.";
+      } else {
+        result.style.color = "red";
+        result.innerText = "❌ Wrong! Try again.";
+      }
+    }
+  </script>
+</body>
+</html>
